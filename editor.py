@@ -1,8 +1,7 @@
 from os import path
-from PIL import Image, ImageEnhance, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont
 import colorgram
-import argparse
-import sys
+import tempfile
 
 class editor():
 	img = None
@@ -11,6 +10,7 @@ class editor():
 	img_nome = None
 	img_ext = None
 	imagem = None
+	rotate_img = None
 
 	def resetar(self):
 		self.img = None
@@ -18,6 +18,7 @@ class editor():
 		self.img_local = None
 		self.img_nome = None
 		self.img_ext = None
+		self.rotate_img = None
 
 	def carregar_imagem(self, imagem):
 		try:
@@ -32,10 +33,20 @@ class editor():
 			return False
 
 	def girar_imagem(self, sentido='horario', angulo=90):
-		if (sentido == 'horario'):
-			self.img = self.img.rotate(angulo * -1, expand=True)
-		elif (sentido == 'anti_horario'):
-			self.img = self.img.rotate(angulo, expand=True)
+		# try:
+			img_tempfile = tempfile.NamedTemporaryFile(suffix='.jpg', delete=False)
+			if sentido == 'horario':
+				self.img = self.img.rotate(angulo * -1, expand=True)
+			elif sentido == 'anti_horario':
+				self.img = self.img.rotate(angulo, expand=True)
+			
+			self.img.save(img_tempfile.name, format='JPEG')
+			self.rotate_img = img_tempfile.name
+	 
+		# finally:
+		# 	img_tempfile.close()
+		# 	os.unlink(img_tempfile.name)
+
 
 	def remover_cor_imagem(self):
 		imagem = str(self.img_local)+"/"+ str(self.img_nome)+str(self.img_ext)

@@ -7,7 +7,6 @@ from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.uix.filemanager import MDFileManager
 from kivymd.toast import toast
-from kivy.uix.image import Image
 
 from editor import ed
 
@@ -55,7 +54,7 @@ MDBoxLayout:
                 icon: "rotate-left"
                 size_hint_x: .3
                 pos_hint: {"center_x": .3, "center_y": .5}
-                on_release: app.bt_girar_anti_horario
+                on_release: app.bt_girar_anti_horario()
 
             MDRoundFlatIconButton:
                 text: "Girar"
@@ -139,15 +138,13 @@ class App(MDApp):
         return True
 
     def bt_girar_anti_horario(self):
-        print(ed.img)
         ed.girar_imagem('anti_horario')
-        self.root.ids.img_.source = ed.img
-        # self.exibir_imagem()
+        self.root.ids.img_.source = ed.rotate_img
+
 
     def bt_girar_horario(self):
-        print(ed.img)
         ed.girar_imagem('horario')
-        self.root.ids.img_.source = ed.img
+        self.root.ids.img_.source = ed.rotate_img
 
     def exibir_imagem(self):
         ed.remover_cor_imagem()
