@@ -1,32 +1,36 @@
 
-Para criar um ambiente virtual para a aplicação funcionar, você pode seguir estes passos:
+## Para criar um ambiente virtual para a aplicação funcionar, você pode seguir estes passos:
 
-Crie um novo diretório para o projeto, se ainda não tiver um.
+* Crie um novo diretório para o projeto, se ainda não tiver um.
 Abra um terminal e navegue até o diretório do projeto.
-Execute o seguinte comando para criar um ambiente virtual:
 
-python3 -m venv venv
+## Execute o seguinte comando para criar um ambiente virtual:
 
-Isso criará um ambiente virtual chamado venv no diretório do projeto.
+    python3 -m venv venv
 
-Ative o ambiente virtual. No Linux ou MacOS, use:
+* Isso criará um ambiente virtual chamado venv no diretório do projeto.
 
-source venv/bin/activate
-No Windows, use:
+## Ative o ambiente virtual. No Linux ou MacOS, use:
 
-venv\Scripts\activate
+    source venv/bin/activate
 
-Com o ambiente virtual ativado, instale as dependências necessárias. Crie um arquivo chamado requirements.txt no diretório do projeto e adicione as seguintes linhas:
+## No Windows, use:
 
-Copy code
-kivy==2.0.0
-kivymd==0.104.2
-Pillow==9.0.1
-colorgram.py==1.2.2
-Depois de adicionar as dependências ao requirements.txt, instale-as usando o pip:
+    venv\Scripts\activate
 
-pip install -r requirements.txt
+## Com o ambiente virtual ativado, instale as dependências necessárias.
+
+    pip install -r requirements.txt
 
 Isso instalará todas as dependências necessárias para o projeto funcionar dentro do ambiente virtual.
+
+## Observação 
+
+* No windows pode ser que seja necessario fazer alterações em caminho onde sera carregado o arquivo.   
+* Assim como o caminho da fonte no sistema, Ex:
+
+    # fonte para sistemas o seu sistema operaciona
+		font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+
 
 # pj-espectofotometro
