@@ -6,6 +6,11 @@ from kivy.lang import Builder
 
 from kivymd.app import MDApp
 from kivymd.uix.filemanager import MDFileManager
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDRoundFlatIconButton
+from kivymd.uix.textfield import MDTextField
+from kivy.uix.boxlayout import BoxLayout
+from kivymd.uix.label import MDLabel
 from kivymd.toast import toast
 
 from editor import ed
@@ -47,7 +52,7 @@ MDBoxLayout:
         MDBoxLayout:
             
             size_hint: .7, .1  # Adjust size as needed
-            pos_hint: {"center_x": .5, "center_y": .220}  # Adjust position
+            pos_hint: {"center_x": .5, "center_y": .180}  # Adjust position
             
             MDRoundFlatIconButton:
                 text: "Girar"
@@ -67,7 +72,7 @@ MDBoxLayout:
         MDBoxLayout:
             # md_bg_color: "darkgrey"
             size_hint: .7, .1  # Adjust size as needed
-            pos_hint: {"center_x": .5, "center_y": .140}  # Adjust position
+            pos_hint: {"center_x": .5, "center_y": .120}  # Adjust position
 
             MDRoundFlatIconButton:
                 text: "Processar"
@@ -81,7 +86,19 @@ MDBoxLayout:
                 icon: "content-save"
                 size_hint_x: .3
                 pos_hint: {"center_x": .6, "center_y": .5}
-                on_release: app.salvar_imagem()                
+                on_release: app.salvar_imagem() 
+
+        MDBoxLayout:
+            # md_bg_color: "darkgrey"
+            size_hint: .7, .1  # Adjust size as needed
+            pos_hint: {"center_x": .5, "center_y": .240}  # Adjust position
+
+            MDRoundFlatIconButton:
+                text: "Cortar"
+                icon: "content-save"
+                size_hint_x: .4
+                pos_hint: {"center_x": .8, "center_y": .5}
+                on_release: app.exibir_image_with_rentagule_corte()                  
    
 
             
@@ -139,17 +156,77 @@ class App(MDApp):
 
     def bt_girar_anti_horario(self):
         ed.girar_imagem('anti_horario')
-        self.root.ids.img_.source = ed.rotate_img
+        self.root.ids.img_.source = ed.image_tmp
 
 
     def bt_girar_horario(self):
         ed.girar_imagem('horario')
-        self.root.ids.img_.source = ed.rotate_img
+        self.root.ids.img_.source = ed.image_tmp
 
     def exibir_imagem(self):
         ed.remover_cor_imagem()
         self.output_path = f'imgs/{ed.img_nome}.png'
         self.root.ids.img_.source = self.output_path
+
+    def exibir_image_with_rentagule_corte(self):
+        # ed.rec_draw()
+        # Layout para os campos de texto
+        content = BoxLayout(orientation='vertical', spacing="12dp")
+        
+        self.coordenada_x = MDTextField(
+            hint_text="Coordenada X",
+            input_filter='int',
+            size_hint=(1, None),
+            height="30dp"
+        )
+        self.coordenada_y = MDTextField(
+            hint_text="Coordenada Y",
+            input_filter='int',
+            size_hint=(1, None),
+            height="30dp"
+        )
+        content.add_widget(self.coordenada_x)
+        content.add_widget(self.coordenada_y)
+
+        # Exibir o modal na parte inferior da tela
+        self.dialog = MDDialog(
+            title="Corte de Imagem",
+            type="custom",
+            size_hint_y = "400dp",
+            content_cls=content,
+            buttons=[
+                MDRoundFlatIconButton(
+                    text="CANCELAR",
+                    on_release=self.fechar_dialog
+                ),
+                MDRoundFlatIconButton(
+                    text="CORTAR",
+                    on_release=self.cortar_imagem
+                ),
+            ],
+        )
+        self.dialog.open()
+        # self.root.ids.img_.source = ed.image_tmp  
+
+    def fechar_dialog(self, *args):
+        self.dialog.dismiss()
+
+    def cortar_imagem(self, *args):
+        # Código para cortar a imagem usando as coordenadas
+        x = int(self.coordenada_x.text) if self.coordenada_x.text else 0
+        y = int(self.coordenada_y.text) if self.coordenada_y.text else 0
+
+        coord ={
+            'x': x,
+			'y': y
+        }
+            
+        ed.rec_draw(coord)
+        self.dialog.dismiss()
+        self.root.ids.img_.source = ed.image_tmp  
+
+        pass
+
 
 
 
