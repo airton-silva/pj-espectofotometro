@@ -11,6 +11,7 @@ class editor():
 	img_ext = None
 	imagem = None
 	rotate_img = None
+	image_tmp =None
 
 	def resetar(self):
 		self.img = None
@@ -19,6 +20,7 @@ class editor():
 		self.img_nome = None
 		self.img_ext = None
 		self.rotate_img = None
+		self.image_tmp = None
 
 	def carregar_imagem(self, imagem):
 		try:
@@ -26,6 +28,7 @@ class editor():
 			self.img_formato = self.img.format
 			self.img_local = path.dirname(path.realpath(imagem))
 			self.img_nome, self.img_ext = path.splitext(path.basename(imagem))
+			self.image_tmp = str(self.img_local)+"/"+ str(self.img_nome)+str(self.img_ext)
 			print('Imagem carregada!')
 			return True
 		except:
@@ -34,14 +37,15 @@ class editor():
 
 	def girar_imagem(self, sentido='horario', angulo=90):
 		# try:
+			imagem = Image.open(self.image_tmp)
 			img_tempfile = tempfile.NamedTemporaryFile(suffix='.jpg', delete=False)
 			if sentido == 'horario':
-				self.img = self.img.rotate(angulo * -1, expand=True)
+				imagem = imagem.rotate(angulo * -1, expand=True)
 			elif sentido == 'anti_horario':
-				self.img = self.img.rotate(angulo, expand=True)
+				imagem = imagem.rotate(angulo, expand=True)
 			
-			self.img.save(img_tempfile.name, format='JPEG')
-			self.rotate_img = img_tempfile.name
+			imagem.save(img_tempfile.name, format='JPEG')
+			self.image_tmp = img_tempfile.name
 	 
 		# finally:
 		# 	img_tempfile.close()
@@ -50,7 +54,7 @@ class editor():
 
 	def remover_cor_imagem(self):
 		try:
-			imagem = str(self.img_local)+"/"+ str(self.img_nome)+str(self.img_ext)
+			imagem = self.image_tmp
 			img = Image.open(imagem)
 			width = img.width
 			height = img.height
@@ -136,6 +140,45 @@ class editor():
 			return True
 		except:
 			return False
+		
+	def rec_draw(self, coord):
+		saida_path = f'imgs/{ed.img_nome}.png'
+		imagem_path = ed.img_local +"/"+ str(ed.img_nome)+str(ed.img_ext)
+		# Abra a imagem
+		imagem = Image.open(imagem_path)
+
+		# Crie um objeto ImageDraw
+		draw = ImageDraw.Draw(imagem)
+
+		# Defina as dimensões do retângulo
+		largura_retangulo = 150
+		altura_retangulo = 600
+		
+		x = int(coord.get('x'))
+		y = int(coord.get('y'))
+
+		# Calcule as coordenadas do canto inferior direito do retângulo
+		x2 = x + largura_retangulo
+		y2 = y + altura_retangulo
+
+		# Desenhe o retângulo na imagem
+		draw.rectangle((x, y, x2, y2), outline="red", width=5)
+
+		imagem.save(saida_path)
+		self.image_tmp = saida_path
+
+		self.recortar_retangulo(x2, y2, coord )
+
+	
+	def recortar_retangulo(self, x2, y2, coord):
+		saida_path = f'imgs/{ed.img_nome}.png'
+		imagem = Image.open(self.image_tmp)
+		print(coord.get('x'), coord.get('y'))
+		# Recorte a imagem
+		recorte = imagem.crop((int(coord.get('x')), int( coord.get('y')), x2, y2))
+		
+		# # Salve a imagem recortada
+		recorte.save(saida_path)
 
 
 ed = editor()
