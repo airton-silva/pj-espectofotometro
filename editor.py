@@ -3,6 +3,9 @@ from PIL import Image, ImageDraw, ImageFont
 import colorgram
 import tempfile
 
+from export import export_data
+
+
 class editor():
 	img = None
 	img_formato = None
@@ -104,7 +107,7 @@ class editor():
 			new_im.paste(image_palette, (0, height))
 			new_im.save(f'imgs/{self.img_nome}.png', "PNG")
 			self.img = new_im
-
+			self.image_tmp = f'imgs/{self.img_nome}.png', "PNG"
 			#new_im.show()
 
 
@@ -127,6 +130,15 @@ class editor():
 			print(rgb)
 			print(hsl)
 			print(f'{round(proportion * 100, 2)}%')
+			
+			data = {
+				"Amostra": self.img_nome,
+				"cor_principal_RGB": rgb,
+				"cor_principal_HSL": hsl,
+				"Percentual": f'{round(first_color.proportion * 100, 2)}%'
+			}
+			export_1 = export_data()
+			export_1.data_csv['data']=data
 
 			return True
 		except Exception as e:
@@ -162,7 +174,7 @@ class editor():
 		y2 = y + altura_retangulo
 
 		# Desenhe o retângulo na imagem
-		draw.rectangle((x, y, x2, y2), outline="red", width=5)
+		draw.rectangle((x, y, x2, y2), outline="red", width=2)
 
 		imagem.save(saida_path)
 		self.image_tmp = saida_path
@@ -179,6 +191,11 @@ class editor():
 		
 		# # Salve a imagem recortada
 		recorte.save(saida_path)
+
+	def print_data_csv(self):
+		data = export_data().print_data()
+		print (data)
+		
 
 
 ed = editor()
