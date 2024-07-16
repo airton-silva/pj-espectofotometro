@@ -2,6 +2,7 @@ from os import path
 from PIL import Image, ImageDraw, ImageFont
 import colorgram
 import tempfile
+from datetime import date
 
 from export import export_data
 
@@ -15,6 +16,10 @@ class editor():
 	imagem = None
 	rotate_img = None
 	image_tmp =None
+	data_csv = {
+        'name_file': 'Coleta_'+ str(date.today()),
+        'amostras':[]
+    }
 
 	def resetar(self):
 		self.img = None
@@ -107,7 +112,7 @@ class editor():
 			new_im.paste(image_palette, (0, height))
 			new_im.save(f'imgs/{self.img_nome}.png', "PNG")
 			self.img = new_im
-			self.image_tmp = f'imgs/{self.img_nome}.png', "PNG"
+			self.image_tmp = f'imgs/{self.img_nome}.png'
 			#new_im.show()
 
 
@@ -130,15 +135,8 @@ class editor():
 			print(rgb)
 			print(hsl)
 			print(f'{round(proportion * 100, 2)}%')
-			
-			data = {
-				"Amostra": self.img_nome,
-				"cor_principal_RGB": rgb,
-				"cor_principal_HSL": hsl,
-				"Percentual": f'{round(first_color.proportion * 100, 2)}%'
-			}
-			export_1 = export_data()
-			export_1.data_csv['data']=data
+
+			export_data.add_amostra(self.data_csv, self.img_nome, rgb, hsl, f'{round(first_color.proportion * 100, 2)}%')
 
 			return True
 		except Exception as e:
@@ -193,8 +191,9 @@ class editor():
 		recorte.save(saida_path)
 
 	def print_data_csv(self):
-		data = export_data().print_data()
-		print (data)
+		export_data.export_to_csv(self.data_csv, "coleta.csv")
+		export_data.print_data(self.data_csv)
+
 		
 
 

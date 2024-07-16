@@ -82,11 +82,11 @@ MDBoxLayout:
                 on_release: app.exibir_imagem()
 
             MDRoundFlatIconButton:
-                text: "Salvar"
+                text: "Salvar Csv"
                 icon: "content-save"
                 size_hint_x: .3
                 pos_hint: {"center_x": .6, "center_y": .5}
-                on_release: app.salvar_imagem() 
+                on_release: app.data_csv()
 
         MDBoxLayout:
             # md_bg_color: "darkgrey"
@@ -95,7 +95,7 @@ MDBoxLayout:
 
             MDRoundFlatIconButton:
                 text: "Cortar"
-                icon: "content-save"
+                icon: "content-cut"
                 size_hint_x: .4
                 pos_hint: {"center_x": .8, "center_y": .5}
                 on_release: app.exibir_image_with_rentagule_corte()                  
@@ -116,6 +116,9 @@ class App(MDApp):
             exit_manager=self.exit_manager, select_path=self.select_path,
             preview=True,
         )
+
+    def reset(self):
+        self.output_path = None
 
     def build(self):
         self.theme_cls.theme_style = "Dark"
@@ -166,6 +169,11 @@ class App(MDApp):
     def exibir_imagem(self):
         ed.remover_cor_imagem()
         self.output_path = f'imgs/{ed.img_nome}.png'
+        img_reload = self.output_path
+        self.reset()
+        ed.carregar_imagem(img_reload)
+        self.output_path = img_reload
+        print(self.output_path)
         self.root.ids.img_.source = self.output_path
 
     def exibir_image_with_rentagule_corte(self):
@@ -226,6 +234,9 @@ class App(MDApp):
         self.root.ids.img_.source = ed.image_tmp  
 
         pass
+
+    def data_csv (self, *args):
+        ed.print_data_csv()
 
 
 
