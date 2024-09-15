@@ -1,0 +1,73 @@
+#:import ScreenOneView views.screen_one.ScreenOne
+
+<ScreenOneView>:
+    # md_bg_color: app.theme_cls.primary.light
+    # MDLabel:
+    #     text:"ScreenOneView"
+    #     halign:"center"
+    id: main_screen
+    MDFloatLayout:
+
+        MDRoundFlatIconButton:
+            text: "Carregar Imagem"
+            focus_behavior: True
+            icon: "folder"
+            elevation: 6
+            pos_hint: {"center_x": .5, "center_y": .9}
+            on_release: root.file_manager_open()
+        
+        MDCard:
+            size_hint: .7, .550            
+            focus_behavior: True
+            pos_hint: {"center_x": .5, "center_y": .48}
+            md_bg_color: "darkgrey"
+            focus_color: "grey"            
+            Image:
+                id: img_
+                # size_hint: .5, .5
+                pos_hint: {"center_x": .5, "center_y": .5}
+                allow_stretch:True
+
+    MDBoxLayout:
+        
+        size_hint: .7, .1  # Adjust size as needed
+        pos_hint: {"center_x": .5, "center_y": .810}  # Adjust position
+        
+        MDRoundFlatIconButton:
+            text: "Girar"
+            icon: "rotate-left"
+            size_hint_x: .3
+            pos_hint: {"center_x": .3, "center_y": .5}
+            on_release: root.bt_girar_anti_horario()
+
+        MDRoundFlatIconButton:
+            text: "Girar"
+            icon: "rotate-right"
+            size_hint_x: .3
+            pos_hint: {"center_x": .6, "center_y": .5}
+            on_release: root.bt_girar_horario()
+
+    MDBoxLayout:
+        # md_bg_color: "darkgrey"
+        size_hint: .7, .1  # Adjust size as needed
+        pos_hint: {"center_x": .5, "center_y": .150}  # Adjust position
+
+        MDRoundFlatIconButton:
+            text: "Cortar"
+            icon: "content-cut"
+            size_hint_x: .4
+            pos_hint: {"center_x": .8, "center_y": .48}
+            on_release: root.exibir_image_with_rentagule_corte() 
+
+    MDBoxLayout:
+        # md_bg_color: "darkgrey"
+        size_hint: .7, .1  # Adjust size as needed
+        pos_hint: {"center_x": .5, "center_y": .110}  # Adjust position
+
+        MDRoundFlatIconButton:
+            text: "Processar"
+            icon: "image-check"
+            size_hint_x: .3
+            pos_hint: {"center_x": .3, "center_y": .1}
+            on_release: root.exibir_imagem()
+    

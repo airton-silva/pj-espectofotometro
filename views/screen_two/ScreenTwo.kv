@@ -1,0 +1,33 @@
+#:import ScreenTwoView views.screen_two.ScreenTwo
+
+<ScreenTwoView>:
+    # MDLabel:
+    #     text:"ScreenTwoView"
+    #     halign:"center"
+    MDFloatLayout:
+        BoxLayout:
+            orientation: 'vertical'
+                    # O DataTable será adicionado aqui pelo código Python
+        MDLabel:
+            text: "Tabela de RGB das Imagens"
+            halign: "center"
+            pos_hint: {"center_x": 0.5, "center_y": 0.98}
+        MDRoundFlatIconButton:
+            text: "tabela"
+            icon: "reload"
+            focus_behavior: True
+            elevation: 6
+            pos_hint: {"center_x": .3, "center_y": .92}
+            on_release: root.update_table() 
+
+        MDRoundFlatIconButton:
+            text: "salvar .csv"
+            icon: "content-save"
+            focus_behavior: True
+            elevation: 6
+            pos_hint: {"center_x": .7, "center_y": .92}
+            on_release: root.export_csv()
+
+
+
+

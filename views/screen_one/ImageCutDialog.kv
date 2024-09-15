@@ -1,0 +1,40 @@
+<ImageCutDialog>:
+    orientation: 'vertical'
+    spacing: "12dp"
+
+    MDCard:
+        padding: "10dp"
+        size_hint_y: None
+        height: "150dp"
+
+
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: "5dp"
+            # size_hint_y: 0.8
+            # adjust_height: True
+            # # height: "40dp"
+            # padding: "10dp"
+            # # md_bg_color:"red"
+
+            MDLabel:
+                text: "Corte de Imagem"
+                theme_text_color: "Primary"
+                font_style: "H6"
+                halign: "center"
+                valign: "top"
+
+            MDTextField:
+                id: coordenada_x
+                hint_text: "Coordenada X"
+                input_filter: 'int'
+                size_hint_y: None
+                height: "30dp"
+
+            MDTextField:
+                id: coordenada_y
+                hint_text: "Coordenada Y"
+                input_filter: 'int'
+                size_hint_y: None
+                height: "30dp"
+

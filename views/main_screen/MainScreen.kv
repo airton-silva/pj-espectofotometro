@@ -1,0 +1,37 @@
+#:import ScreenOneView views.screen_one.ScreenOne
+#:import ScreenTwoView views.screen_two.ScreenTwo
+#:import ScreenThreeView views.screen_three.ScreenThree
+
+
+<MainScreenView>:
+
+    MDBoxLayout: 
+        orientation:"vertical"
+        MDTopAppBar:
+            title:"Espectre Image"
+
+        MDBottomNavigation:
+
+            MDBottomNavigationItem:
+                name: "screen 1"
+                text:"Home"
+                icon:"home"
+                ScreenOneView:
+                    id:screen_one_view
+
+            MDBottomNavigationItem:
+                name: "screen 2"
+                text:"Scree two"
+                icon:"grid"
+                ScreenTwoView: 
+                    id: screen_two_view                  
+
+            MDBottomNavigationItem:
+                name: "screen 3"
+                text:"Screen three"
+                icon:"cog"
+                ScreenThreeView:
+                    id: screen_two_three
+
+
+
