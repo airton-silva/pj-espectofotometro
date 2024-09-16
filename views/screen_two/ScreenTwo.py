@@ -31,6 +31,9 @@ class ScreenTwoView(MDScreen):
                 ("R", dp(10)),
                 ("G", dp(10)),
                 ("B", dp(10)),
+                ("H", dp(10)),
+                ("S", dp(10)),
+                ("H", dp(10)),
                 ("Percentual", dp(20)),
             ],
             row_data=self.dados[1:] ,  # Ignora a primeira linha (cabeçalho)

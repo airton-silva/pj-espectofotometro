@@ -43,6 +43,9 @@ class ExportData():
                 dt.get('cor_principal_RGB').r,
                 dt.get('cor_principal_RGB').g,
                 dt.get('cor_principal_RGB').b,
+                dt.get("cor_principal_HSL").h,
+                dt.get("cor_principal_HSL").s,
+                dt.get("cor_principal_HSL").l,
                 dt.get('Percentual')
             ]
             _dt.append(row)
